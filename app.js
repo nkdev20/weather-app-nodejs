@@ -1,9 +1,20 @@
 const request = require('request');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
-const url = 'https://api.darksky.net/forecast/32c9bfd752aa629bbffa3cfeebf9ee6a/37.8267,-122.4233';
+geocode('Goa',  (error, data) => {
+    if(error == undefined) {
+        console.log(data);
+        forecast(data, (error, data) => {
+            if(error == undefined) {
+                console.log('Data', data);
+            } else {
+                console.log('Error', error);
+            }
 
-request({ url : url, json:true}, (err, response) => {
-    // console.log(response.body.currently)
+        })
+    } else {
+        console.log('Error', error);
+    }
 
-    console.log('It is currenlty ' + response.body.currently.temperature + ' and there is ' + response.body.currently.precipProbability+ '% probablity of rain') ;
 });
